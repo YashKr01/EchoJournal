@@ -1,4 +1,4 @@
-package com.plcoding.echojournal.ui.dropdowns
+package com.plcoding.echojournal.presentation.design.dropdowns
 
 data class SelectableOptionExtras(
     val text: String,

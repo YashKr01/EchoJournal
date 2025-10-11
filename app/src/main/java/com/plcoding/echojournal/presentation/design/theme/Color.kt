@@ -1,4 +1,4 @@
-package com.plcoding.echojournal.ui.theme
+package com.plcoding.echojournal.presentation.design.theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Brush

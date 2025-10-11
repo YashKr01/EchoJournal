@@ -1,4 +1,4 @@
-package com.plcoding.echojournal.ui.dropdowns
+package com.plcoding.echojournal.presentation.design.dropdowns
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.plcoding.echojournal.R
-import com.plcoding.echojournal.ui.theme.EchoJournalTheme
+import com.plcoding.echojournal.presentation.design.theme.EchoJournalTheme
 
 @Composable
 fun <T> SelectableDropDownOptionsMenu(

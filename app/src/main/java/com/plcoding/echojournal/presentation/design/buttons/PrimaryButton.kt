@@ -1,4 +1,4 @@
-package com.plcoding.echojournal.ui.buttons
+package com.plcoding.echojournal.presentation.design.buttons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
@@ -17,8 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.plcoding.echojournal.ui.theme.EchoJournalTheme
-import com.plcoding.echojournal.ui.theme.buttonGradient
+import com.plcoding.echojournal.presentation.design.theme.EchoJournalTheme
+import com.plcoding.echojournal.presentation.design.theme.buttonGradient
 
 @Composable
 fun PrimaryButton(
