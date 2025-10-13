@@ -1,4 +1,4 @@
-package com.plcoding.echojournal.presentation.design.chips
+package com.plcoding.echojournal.core.presentation.design.chips
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,8 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.plcoding.echojournal.presentation.design.theme.EchoJournalTheme
-import com.plcoding.echojournal.presentation.design.theme.Gray6
+import com.plcoding.echojournal.core.presentation.design.theme.EchoJournalTheme
+import com.plcoding.echojournal.core.presentation.design.theme.Gray6
 
 @Composable
 fun HashtagChip(

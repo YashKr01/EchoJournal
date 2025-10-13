@@ -1,4 +1,4 @@
-package com.plcoding.echojournal.presentation.design.dropdowns
+package com.plcoding.echojournal.core.presentation.design.dropdowns
 
 data class Selectable<T>(
     val item: T,

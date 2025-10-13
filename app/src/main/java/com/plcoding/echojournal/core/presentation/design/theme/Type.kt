@@ -1,4 +1,4 @@
-package com.plcoding.echojournal.presentation.design.theme
+package com.plcoding.echojournal.core.presentation.design.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

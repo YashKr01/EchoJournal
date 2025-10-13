@@ -1,4 +1,4 @@
-package com.plcoding.echojournal.presentation.design.text
+package com.plcoding.echojournal.core.presentation.design.text
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.text.BasicTextField
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import com.plcoding.echojournal.presentation.design.theme.EchoJournalTheme
+import com.plcoding.echojournal.core.presentation.design.theme.EchoJournalTheme
 
 @Composable
 fun TransparentHintTextField(

@@ -1,4 +1,4 @@
-package com.plcoding.echojournal.presentation.design.chips
+package com.plcoding.echojournal.core.presentation.design.chips
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.plcoding.echojournal.R
-import com.plcoding.echojournal.presentation.design.theme.EchoJournalTheme
+import com.plcoding.echojournal.core.presentation.design.theme.EchoJournalTheme
 
 @Composable
 fun MultiChoiceChip(
