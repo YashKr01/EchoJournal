@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchoBubbleFloatingActionButton
+import com.plcoding.echojournal.core.echos.presentation.echos.components.EchoFilterRow
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchosEmptyBackground
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchosTopBar
 import com.plcoding.echojournal.core.presentation.design.theme.EchoJournalTheme
@@ -60,6 +61,19 @@ fun EchosScreen(
                 )
                 .padding(innerPadding)
         ) {
+
+            EchoFilterRow(
+                moodChipContent = state.moodChipContent,
+                hasActiveMoodFilters = state.hasActiveMoodFilters,
+                selectedEchoFilterChip = state.selectedEchoFilterChip,
+                moods = state.moods,
+                topicChipTitle = state.topicChipTitle,
+                hasActiveTopicFilters = state.hasActiveTopicFilters,
+                onAction = onAction,
+                topics = state.topics,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
             when {
                 state.isLoadingData -> {
                     CircularProgressIndicator(
@@ -78,6 +92,7 @@ fun EchosScreen(
                     )
                 }
             }
+
         }
 
     }
