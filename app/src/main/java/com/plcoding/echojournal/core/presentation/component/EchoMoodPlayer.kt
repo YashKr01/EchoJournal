@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.plcoding.echojournal.core.echos.presentation.model.MoodUi
 import com.plcoding.echojournal.core.echos.presentation.model.PlaybackState
+import com.plcoding.echojournal.core.echos.presentation.model.TrackSizeInfo
 import com.plcoding.echojournal.core.presentation.design.theme.EchoJournalTheme
 import com.plcoding.echojournal.core.presentation.design.theme.MoodPrimary25
 import com.plcoding.echojournal.core.presentation.design.theme.MoodPrimary35
@@ -42,6 +43,7 @@ fun EchoMoodPlayer(
     modifier: Modifier = Modifier,
     amplitudeBarWidth: Dp = 5.dp,
     amplitudeBarSpacing: Dp = 4.dp,
+    onTrackSizeAvailable: (TrackSizeInfo) -> Unit,
 ) {
 
     val iconTint = when (moodUi) {
@@ -121,15 +123,16 @@ private fun EchoMoodPlayerPreview() {
         }
         EchoMoodPlayer(
             moodUi = MoodUi.EXCITED,
-            playerProgress = { 0.3f },
             playbackState = PlaybackState.PAUSED,
+            playerProgress = { 0.3f },
             durationPlayed = 125.seconds,
             totalPlaybackDuration = 250.seconds,
             powerRatios = ratios,
-            onPauseClick = {},
             onPlayClick = {},
+            onPauseClick = {},
             modifier = Modifier
                 .fillMaxWidth(),
+            onTrackSizeAvailable = {},
         )
     }
 }
