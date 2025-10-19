@@ -17,6 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchoBubbleFloatingActionButton
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchoFilterRow
+import com.plcoding.echojournal.core.echos.presentation.echos.components.EchoList
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchosEmptyBackground
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchosTopBar
 import com.plcoding.echojournal.core.presentation.design.theme.EchoJournalTheme
@@ -91,6 +92,16 @@ fun EchosScreen(
                             .fillMaxWidth()
                     )
                 }
+
+                else -> {
+                    EchoList(
+                        sections = state.echoDaySections,
+                        onPlayClick = { onAction(EchosAction.OnPlayEchoClick(it)) },
+                        onPauseClick = { onAction(EchosAction.OnPauseClick) },
+                        onTrackSizeAvailable = { onAction(EchosAction.OnTrackSizeAvailable) }
+                    )
+                }
+
             }
 
         }

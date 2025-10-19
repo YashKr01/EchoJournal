@@ -12,7 +12,10 @@ sealed interface EchosAction {
     data object OnTopicChipClick : EchosAction
     data object OnDismissMoodDropdown : EchosAction
     data object OnDismissTopicDropDown : EchosAction
-    data class OnFilterByMoodClick(val moodUi: MoodUi): EchosAction
-    data class OnFilterByTopicClick(val topic: String): EchosAction
+    data class OnFilterByMoodClick(val moodUi: MoodUi) : EchosAction
+    data class OnFilterByTopicClick(val topic: String) : EchosAction
     data class OnRemoveFilters(val filterType: EchoFilterChip) : EchosAction
+    data class OnPlayEchoClick(val echoId: Int) : EchosAction
+    data object OnPauseClick : EchosAction
+    data object OnTrackSizeAvailable : EchosAction
 }
