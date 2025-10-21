@@ -28,10 +28,11 @@ import com.plcoding.echojournal.core.echos.presentation.echos.model.AudioCapture
 import com.plcoding.echojournal.core.presentation.design.theme.EchoJournalTheme
 import com.plcoding.echojournal.core.presentation.design.theme.bgGradient
 import com.plcoding.echojournal.core.presentation.util.ObserveAsEvents
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun EchosRoot(
-    viewModel: EchosViewModel = viewModel()
+    viewModel: EchosViewModel = koinViewModel()
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.echojournal.R
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchoEvents
+import com.plcoding.echojournal.core.echos.presentation.echos.domain.recording.VoiceRecorder
 import com.plcoding.echojournal.core.echos.presentation.echos.model.AudioCaptureMethod
 import com.plcoding.echojournal.core.echos.presentation.echos.model.EchoFilterChip
 import com.plcoding.echojournal.core.echos.presentation.echos.model.MoodChipContent
@@ -21,7 +22,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class EchosViewModel : ViewModel() {
+class EchosViewModel(
+    private val voiceRecorder: VoiceRecorder
+) : ViewModel() {
 
     private var hasLoadedInitialData = false
 
