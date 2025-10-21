@@ -1,6 +1,5 @@
 package com.plcoding.echojournal.core.echos.presentation.echos
 
-import android.adservices.topics.Topic
 import com.plcoding.echojournal.core.echos.presentation.echos.model.EchoFilterChip
 import com.plcoding.echojournal.core.echos.presentation.model.MoodUi
 
@@ -16,7 +15,11 @@ sealed interface EchosAction {
     data class OnFilterByTopicClick(val topic: String) : EchosAction
     data class OnRemoveFilters(val filterType: EchoFilterChip) : EchosAction
     data class OnPlayEchoClick(val echoId: Int) : EchosAction
-    data object OnPauseClick : EchosAction
+    data object OnPauseAudioClick : EchosAction
     data object OnTrackSizeAvailable : EchosAction
     data object OnEchoPermissionGranted : EchosAction
+    data object OnCancelRecording: EchosAction
+    data object OnPauseRecordingClick: EchosAction
+    data object OnResumeRecordingClick: EchosAction
+    data object OnCompleteRecording: EchosAction
 }

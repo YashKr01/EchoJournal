@@ -8,6 +8,7 @@ import com.plcoding.echojournal.core.echos.presentation.echos.domain.recording.V
 import com.plcoding.echojournal.core.echos.presentation.echos.model.AudioCaptureMethod
 import com.plcoding.echojournal.core.echos.presentation.echos.model.EchoFilterChip
 import com.plcoding.echojournal.core.echos.presentation.echos.model.MoodChipContent
+import com.plcoding.echojournal.core.echos.presentation.echos.model.RecordingState
 import com.plcoding.echojournal.core.echos.presentation.model.MoodUi
 import com.plcoding.echojournal.core.presentation.design.dropdowns.Selectable
 import com.plcoding.echojournal.core.presentation.util.UiText
@@ -15,16 +16,24 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 class EchosViewModel(
     private val voiceRecorder: VoiceRecorder
 ) : ViewModel() {
+
+    companion object {
+        private val MIN_RECORD_DURATION = 1.5.seconds
+    }
 
     private var hasLoadedInitialData = false
 
@@ -79,10 +88,85 @@ class EchosViewModel(
 
             is EchosAction.OnFilterByMoodClick -> toggleMoodFilter(action.moodUi)
             is EchosAction.OnFilterByTopicClick -> toggleTopicFilter(action.topic)
-            EchosAction.OnPauseClick -> Unit
+            EchosAction.OnPauseAudioClick -> pauseRecording()
             is EchosAction.OnPlayEchoClick -> Unit
             EchosAction.OnTrackSizeAvailable -> Unit
-            EchosAction.OnEchoPermissionGranted -> Unit
+            EchosAction.OnEchoPermissionGranted -> startRecording(AudioCaptureMethod.STANDARD)
+            EchosAction.OnCancelRecording -> cancelRecording()
+            EchosAction.OnCompleteRecording -> stopRecording()
+            EchosAction.OnResumeRecordingClick -> resumeRecording()
+            EchosAction.OnPauseRecordingClick -> Unit
+        }
+    }
+
+    private fun pauseRecording() {
+        voiceRecorder.pause()
+        _state.update {
+            it.copy(
+                recordingState = RecordingState.PAUSED
+            )
+        }
+    }
+
+    private fun resumeRecording() {
+        voiceRecorder.resume()
+        _state.update {
+            it.copy(
+                recordingState = RecordingState.NOT_RECORDING,
+            )
+        }
+    }
+
+    private fun cancelRecording() {
+        voiceRecorder.cancel()
+        _state.update {
+            it.copy(
+                recordingState = RecordingState.NORMAL_CAPTURE,
+                currentCaptureMethod = null
+            )
+        }
+    }
+
+    private fun stopRecording() {
+
+        voiceRecorder.stop()
+        _state.update {
+            it.copy(
+                recordingState = RecordingState.NOT_RECORDING
+            )
+        }
+
+        val recordingDetails = voiceRecorder.recordingDetails.value
+        viewModelScope.launch {
+            if (recordingDetails.duration < MIN_RECORD_DURATION) {
+                eventChannel.send(EchoEvents.RecordingTooShortEvent)
+            } else {
+                eventChannel.send(EchoEvents.OnDoneRecording)
+            }
+        }
+
+    }
+
+    private fun startRecording(captureMethod: AudioCaptureMethod) {
+        _state.update {
+            it.copy(
+                recordingState = when(captureMethod) {
+                    AudioCaptureMethod.QUICK -> RecordingState.QUICK_CAPTURE
+                    AudioCaptureMethod.STANDARD -> RecordingState.QUICK_CAPTURE
+                }
+            )
+        }
+        voiceRecorder.start()
+        if (captureMethod == AudioCaptureMethod.STANDARD) {
+            voiceRecorder.recordingDetails.distinctUntilChangedBy { it.duration }
+                .map { it.duration }
+                .onEach { duration ->
+                    _state.update {
+                        it.copy(
+                            recordingElapsedDuration = duration
+                        )
+                    }
+                }.launchIn(viewModelScope)
         }
     }
 
