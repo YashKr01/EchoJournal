@@ -1,5 +1,8 @@
 package com.plcoding.echojournal.core.echos.presentation.echos
 
+import android.Manifest
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,12 +19,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchoBubbleFloatingActionButton
+import com.plcoding.echojournal.core.echos.presentation.echos.components.EchoEvents
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchoFilterRow
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchoList
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchosEmptyBackground
 import com.plcoding.echojournal.core.echos.presentation.echos.components.EchosTopBar
+import com.plcoding.echojournal.core.echos.presentation.echos.model.AudioCaptureMethod
 import com.plcoding.echojournal.core.presentation.design.theme.EchoJournalTheme
 import com.plcoding.echojournal.core.presentation.design.theme.bgGradient
+import com.plcoding.echojournal.core.presentation.util.ObserveAsEvents
 
 @Composable
 fun EchosRoot(
@@ -29,6 +35,20 @@ fun EchosRoot(
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        if (isGranted && state.currentCaptureMethod == AudioCaptureMethod.STANDARD) {
+            viewModel.onAction(EchosAction.OnEchoPermissionGranted)
+        }
+    }
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            EchoEvents.RequestAudioPermission -> {
+                permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+            }
+        }
+    }
 
     EchosScreen(
         state = state,

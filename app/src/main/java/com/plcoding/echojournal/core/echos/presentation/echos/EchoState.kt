@@ -1,6 +1,7 @@
 package com.plcoding.echojournal.core.echos.presentation.echos
 
 import com.plcoding.echojournal.R
+import com.plcoding.echojournal.core.echos.presentation.echos.model.AudioCaptureMethod
 import com.plcoding.echojournal.core.echos.presentation.echos.model.EchoFilterChip
 import com.plcoding.echojournal.core.echos.presentation.echos.model.MoodChipContent
 import com.plcoding.echojournal.core.echos.presentation.model.EchoDaySection
@@ -19,7 +20,8 @@ data class EchosState(
     val topics: List<Selectable<String>> = emptyList(),
     val moodChipContent: MoodChipContent = MoodChipContent(),
     val selectedEchoFilterChip: EchoFilterChip? = null,
-    val topicChipTitle: UiText = UiText.StringResource(R.string.all_topics)
+    val topicChipTitle: UiText = UiText.StringResource(R.string.all_topics),
+    val currentCaptureMethod: AudioCaptureMethod? = null
 ) {
 
     val echoDaySections = echos
