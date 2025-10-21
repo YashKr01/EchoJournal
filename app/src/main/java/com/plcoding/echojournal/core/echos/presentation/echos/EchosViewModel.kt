@@ -46,12 +46,17 @@ class EchosViewModel : ViewModel() {
             EchosAction.OnTopicChipClick -> _state.update { it.copy(selectedEchoFilterChip = EchoFilterChip.TOPICS) }
             EchosAction.OnDismissMoodDropdown,
             EchosAction.OnDismissTopicDropDown -> _state.update { it.copy(selectedEchoFilterChip = null) }
-            is EchosAction.OnRemoveFilters -> when(action.filterType) {
+
+            is EchosAction.OnRemoveFilters -> when (action.filterType) {
                 EchoFilterChip.MOODS -> selectedMoodFilters.update { emptyList() }
                 EchoFilterChip.TOPICS -> selectedTopicFilters.update { emptyList() }
             }
+
             is EchosAction.OnFilterByMoodClick -> toggleMoodFilter(action.moodUi)
             is EchosAction.OnFilterByTopicClick -> toggleTopicFilter(action.topic)
+            EchosAction.OnPauseClick -> Unit
+            is EchosAction.OnPlayEchoClick -> Unit
+            EchosAction.OnTrackSizeAvailable -> Unit
         }
     }
 
