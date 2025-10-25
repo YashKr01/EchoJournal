@@ -14,6 +14,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,6 +31,7 @@ import com.plcoding.echojournal.core.echos.presentation.echos.model.AudioCapture
 import com.plcoding.echojournal.core.echos.presentation.echos.model.RecordingState
 import com.plcoding.echojournal.core.presentation.design.theme.EchoJournalTheme
 import com.plcoding.echojournal.core.presentation.design.theme.bgGradient
+import com.plcoding.echojournal.core.presentation.util.IsAppInForeground
 import com.plcoding.echojournal.core.presentation.util.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
@@ -52,6 +54,13 @@ fun EchosRoot(
             EchoEvents.RequestAudioPermission -> permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
             EchoEvents.RecordingTooShortEvent -> Toast.makeText(context, context.getString(R.string.recording_too_short), Toast.LENGTH_SHORT).show()
             EchoEvents.OnDoneRecording -> Unit
+        }
+    }
+
+    val isAppInForeground by IsAppInForeground()
+    LaunchedEffect(isAppInForeground, state.recordingState) {
+        if (state.recordingState == RecordingState.NORMAL_CAPTURE && !isAppInForeground) {
+            viewModel.onAction(EchosAction.OnPauseRecordingClick)
         }
     }
 
