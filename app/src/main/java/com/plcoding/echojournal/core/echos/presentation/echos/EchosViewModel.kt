@@ -59,7 +59,7 @@ class EchosViewModel(
 
     fun onAction(action: EchosAction) {
         when (action) {
-            EchosAction.OnFabClick -> {
+            EchosAction.OnRecordFabClick -> {
                 requestAudioPermission()
                 _state.update {
                     it.copy(
@@ -67,7 +67,8 @@ class EchosViewModel(
                     )
                 }
             }
-            EchosAction.OnFabLongClick -> {
+
+            EchosAction.OnRequestPermissionQuickRecording -> {
                 requestAudioPermission()
                 _state.update {
                     it.copy(
@@ -75,6 +76,7 @@ class EchosViewModel(
                     )
                 }
             }
+
             EchosAction.OnMoodChipClick -> {}
             EchosAction.OnSettingClick -> {}
             EchosAction.OnTopicChipClick -> _state.update { it.copy(selectedEchoFilterChip = EchoFilterChip.TOPICS) }
@@ -95,7 +97,8 @@ class EchosViewModel(
             EchosAction.OnCancelRecording -> cancelRecording()
             EchosAction.OnCompleteRecording -> stopRecording()
             EchosAction.OnResumeRecordingClick -> resumeRecording()
-            EchosAction.OnPauseRecordingClick -> Unit
+            EchosAction.OnPauseRecordingClick -> pauseRecording()
+            EchosAction.OnRecordButtonLongClick -> startRecording(AudioCaptureMethod.QUICK)
         }
     }
 
@@ -112,7 +115,7 @@ class EchosViewModel(
         voiceRecorder.resume()
         _state.update {
             it.copy(
-                recordingState = RecordingState.NOT_RECORDING,
+                recordingState = RecordingState.NORMAL_CAPTURE,
             )
         }
     }
@@ -121,7 +124,7 @@ class EchosViewModel(
         voiceRecorder.cancel()
         _state.update {
             it.copy(
-                recordingState = RecordingState.NORMAL_CAPTURE,
+                recordingState = RecordingState.NOT_RECORDING,
                 currentCaptureMethod = null
             )
         }
@@ -150,9 +153,9 @@ class EchosViewModel(
     private fun startRecording(captureMethod: AudioCaptureMethod) {
         _state.update {
             it.copy(
-                recordingState = when(captureMethod) {
+                recordingState = when (captureMethod) {
                     AudioCaptureMethod.QUICK -> RecordingState.QUICK_CAPTURE
-                    AudioCaptureMethod.STANDARD -> RecordingState.QUICK_CAPTURE
+                    AudioCaptureMethod.STANDARD -> RecordingState.NORMAL_CAPTURE
                 }
             )
         }
